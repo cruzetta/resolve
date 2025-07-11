@@ -8,10 +8,10 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Inter (para o corpo) e Playfair Display (para títulos) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
         /* Define a fonte Inter como padrão e adiciona estilos para animação */
@@ -20,6 +20,11 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background-color: #f8fafc; /* bg-slate-50 */
+        }
+
+        /* Classe para a fonte do título principal */
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
         }
 
         /* Efeito de revelação suave para elementos ao rolar a página */
@@ -34,10 +39,20 @@
             transform: translateY(0);
         }
 
-        /* Estilo do cabeçalho com gradiente sofisticado */
+        /* --- MELHORIA VISUAL: Seção Hero com Padrão Sutil e Gradiente Aprimorado --- */
         .hero-section {
             background-color: #020617; /* Cor de base (slate-950) */
-            background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 70%); /* Gradiente subtil (slate-800 to slate-950) */
+            /* Camada 1: Padrão de pontos sutis. Camada 2: Gradiente radial mais pronunciado. */
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0),
+                radial-gradient(ellipse at 50% 0%, #1e3a8a40 0%, #020617 60%);
+            background-size: 10px 10px, 100% 100%;
+        }
+
+        /* --- MELHORIA VISUAL: Efeito de brilho (glow) para o botão principal --- */
+        .cta-button-glow {
+            background-image: linear-gradient(to right, #3b82f6, #2563eb); /* Gradiente no botão */
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4), 0 5px 15px rgba(0,0,0,0.2); /* Sombra de brilho + sombra normal */
         }
 
         /* Animação de 'bounce' para a seta de rolagem */
@@ -66,13 +81,15 @@
         <!-- Seção Hero com Fundo de Gradiente -->
         <header class="hero-section relative flex items-center justify-center min-h-screen p-4 overflow-hidden">
             <div class="text-center">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight reveal" style="text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);">
+                <!-- Título com a nova fonte 'Playfair Display' -->
+                <h1 class="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight reveal" style="text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);">
                     Não seja só mais um no Instagram.
                 </h1>
                 <p class="mt-4 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">
                     Tenha um site que destaca o seu valor, passa confiança e atrai clientes certos.
                 </p>
-                <a href="https://wa.me/5567999093031?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20criação%20de%20sites." target="_blank" class="mt-8 inline-block bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg hover:bg-blue-700 hover:scale-105 transform transition-all duration-300 reveal" style="transition-delay: 300ms;">
+                <!-- Botão com o novo estilo de gradiente e brilho -->
+                <a href="https://wa.me/5567999093031?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20criação%20de%20sites." target="_blank" class="cta-button-glow mt-8 inline-block text-white font-bold text-lg px-8 py-4 rounded-lg hover:scale-105 transform transition-all duration-300 reveal" style="transition-delay: 300ms;">
                     Vamos começar
                 </a>
             </div>
