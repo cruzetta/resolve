@@ -7,9 +7,6 @@
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Three.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,33 +22,22 @@
             background-color: #f8fafc; /* bg-slate-50 */
         }
 
-        /* Classe para os elementos a serem animados */
+        /* Efeito de revelação suave para elementos ao rolar a página */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s ease-out, transform 0.6s ease-out;
         }
 
-        /* Classe a ser adicionada quando o elemento está visível */
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Estilos para o canvas 3D no cabeçalho */
-        #hero-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        /* Garante que o conteúdo do cabeçalho fique sobre o canvas */
-        .hero-content {
-            position: relative;
-            z-index: 2;
+        /* Estilo do cabeçalho com gradiente sofisticado */
+        .hero-section {
+            background-color: #020617; /* Cor de base (slate-950) */
+            background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 70%); /* Gradiente subtil (slate-800 to slate-950) */
         }
 
         /* Animação de 'bounce' para a seta de rolagem */
@@ -77,23 +63,20 @@
     <!-- Container Principal -->
     <div class="w-full">
 
-        <!-- Seção Hero com Fundo 3D -->
-        <header class="relative flex items-center justify-center min-h-screen bg-slate-900 p-4 overflow-hidden">
-            <!-- Canvas para a animação 3D -->
-            <canvas id="hero-canvas"></canvas>
-            
-            <div class="hero-content text-center">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight reveal">
-                    Precisa de um site para o seu negócio?
+        <!-- Seção Hero com Fundo de Gradiente -->
+        <header class="hero-section relative flex items-center justify-center min-h-screen p-4 overflow-hidden">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight reveal" style="text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);">
+                    Não seja só mais um no Instagram.
                 </h1>
                 <p class="mt-4 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">
-                    Crio sites personalizados do zero, que realmente funcionam para o seu tipo de negócio.
+                    Tenha um site que destaca o seu valor, passa confiança e atrai clientes certos.
                 </p>
-                <a href="#services" class="mt-8 inline-block bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg hover:bg-blue-700 hover:scale-105 transform transition-all duration-300 reveal" style="transition-delay: 300ms;">
-                    Conhecer os serviços
+                <a href="https://wa.me/5567999093031?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20criação%20de%20sites." target="_blank" class="mt-8 inline-block bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg hover:bg-blue-700 hover:scale-105 transform transition-all duration-300 reveal" style="transition-delay: 300ms;">
+                    Vamos começar
                 </a>
             </div>
-
+            
             <!-- Seta de Rolagem Interativa -->
             <a href="#services" class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce-slow" aria-label="Rolar para a próxima seção">
                 <svg class="w-8 h-8 text-white opacity-70 hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -250,76 +233,6 @@
     </div>
 
     <script>
-        // --- Script para animação 3D do Cabeçalho ---
-        const canvas = document.getElementById('hero-canvas');
-        if (canvas && typeof THREE !== 'undefined') {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            // Geometria das Partículas
-            const particlesGeometry = new THREE.BufferGeometry();
-            const count = 5000;
-
-            const positions = new Float32Array(count * 3);
-            for(let i = 0; i < count * 3; i++) {
-                positions[i] = (Math.random() - 0.5) * 10;
-            }
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-            // Material das Partículas
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.02,
-                sizeAttenuation: true,
-                color: 0x60a5fa, // Cor azul
-                transparent: true,
-                opacity: 0.8
-            });
-
-            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particles);
-
-            camera.position.z = 5;
-
-            // Interação com o Rato
-            let mouseX = 0;
-            let mouseY = 0;
-            document.addEventListener('mousemove', (event) => {
-                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-            });
-            
-            // Loop de Animação
-            const clock = new THREE.Clock();
-            const animate = () => {
-                const elapsedTime = clock.getElapsedTime();
-
-                // Animar partículas
-                particles.rotation.y = elapsedTime * 0.1;
-                
-                // Mover a câmara com o rato
-                camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
-                camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
-                camera.lookAt(scene.position);
-
-                renderer.render(scene, camera);
-                window.requestAnimationFrame(animate);
-            };
-            animate();
-
-            // Responsividade
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            });
-        }
-
-
         // --- Script para animar elementos ao rolar a página ---
         document.addEventListener("DOMContentLoaded", function() {
             const revealElements = document.querySelectorAll('.reveal');
@@ -327,7 +240,10 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
+                        // Adiciona a classe 'visible' com um pequeno atraso para um efeito mais suave
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, 200);
                     }
                 });
             }, {
