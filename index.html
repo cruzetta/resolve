@@ -39,16 +39,6 @@
             transform: translateY(0);
         }
 
-        /* --- MELHORIA VISUAL: Seção Hero com Padrão Sutil e Gradiente Aprimorado --- */
-        .hero-section {
-            background-color: #020617; /* Cor de base (slate-950) */
-            /* Camada 1: Padrão de pontos sutis. Camada 2: Gradiente radial mais pronunciado. */
-            background-image: 
-                radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0),
-                radial-gradient(ellipse at 50% 0%, #1e3a8a40 0%, #020617 60%);
-            background-size: 10px 10px, 100% 100%;
-        }
-
         /* --- MELHORIA VISUAL: Efeito de brilho (glow) para o botão principal --- */
         .cta-button-glow {
             background-image: linear-gradient(to right, #3b82f6, #2563eb); /* Gradiente no botão */
@@ -78,24 +68,35 @@
     <!-- Container Principal -->
     <div class="w-full">
 
-        <!-- Seção Hero com Fundo de Gradiente -->
-        <header class="hero-section relative flex items-center justify-center min-h-screen p-4 overflow-hidden">
-            <div class="text-center">
-                <!-- Título com a nova fonte 'Playfair Display' -->
+        <!-- Seção Hero com Vídeo de Fundo -->
+        <header class="relative flex items-center justify-center min-h-screen p-4 overflow-hidden">
+            
+            <!-- VÍDEO DE FUNDO -->
+            <!-- O vídeo é posicionado para cobrir toda a seção. 'autoplay', 'loop', 'muted' e 'playsinline' são essenciais para um bom funcionamento em todos os navegadores. -->
+            <video autoplay loop muted playsinline class="absolute z-0 w-full h-full object-cover">
+                <source src="video.mp4" type="video/mp4">
+                O seu navegador não suporta a tag de vídeo.
+            </video>
+
+            <!-- CAMADA DE SOBREPOSIÇÃO (OVERLAY) -->
+            <!-- Esta camada escura semi-transparente fica por cima do vídeo para garantir que o texto branco seja sempre legível. -->
+            <div class="absolute z-10 w-full h-full bg-black/50"></div>
+
+            <!-- Conteúdo da Seção Hero -->
+            <div class="relative z-20 text-center">
                 <h1 class="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight reveal" style="text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);">
                     Não seja só mais um no Instagram.
                 </h1>
                 <p class="mt-4 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">
                     Tenha um site que destaca o seu valor, passa confiança e atrai clientes certos.
                 </p>
-                <!-- Botão com o novo estilo de gradiente e brilho -->
                 <a href="https://wa.me/5567999093031?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20criação%20de%20sites." target="_blank" class="cta-button-glow mt-8 inline-block text-white font-bold text-lg px-8 py-4 rounded-lg hover:scale-105 transform transition-all duration-300 reveal" style="transition-delay: 300ms;">
                     Vamos começar
                 </a>
             </div>
             
             <!-- Seta de Rolagem Interativa -->
-            <a href="#services" class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce-slow" aria-label="Rolar para a próxima seção">
+            <a href="#services" class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce-slow" aria-label="Rolar para a próxima seção">
                 <svg class="w-8 h-8 text-white opacity-70 hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </a>
         </header>
