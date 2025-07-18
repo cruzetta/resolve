@@ -100,15 +100,15 @@
     <!-- --- CABEÇALHO DE NAVEGAÇÃO FIXO --- -->
     <nav id="sticky-nav" class="sticky-nav">
         <div class="max-w-6xl mx-auto px-4">
-            <!-- CORREÇÃO: Adicionado 'items-center' para alinhar todos os filhos (logo e menu) verticalmente -->
             <div class="flex justify-between items-center h-16">
-                <!-- CORREÇÃO: Adicionado 'h-full flex items-center' ao link da logo para centralizar a imagem que transborda -->
-                <a href="#" class="h-full flex items-center">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/platamais.firebasestorage.app/o/projeto%20vm%2Flogo%20conecta.png?alt=media&token=320f1061-918f-4bda-8585-c741efd227c1" alt="Logo Conecta Web Digital" class="h-40 w-auto">
+                <!-- CORREÇÃO: Container da logo se torna 'relative' e com largura definida para criar espaço. -->
+                <a href="#" class="relative w-40">
+                    <!-- CORREÇÃO: A imagem é posicionada de forma 'absolute' e centralizada verticalmente,
+                         saindo do fluxo normal e não afetando o alinhamento de outros elementos. -->
+                    <img src="https://firebasestorage.googleapis.com/v0/b/platamais.firebasestorage.app/o/projeto%20vm%2Flogo%20conecta.png?alt=media&token=320f1061-918f-4bda-8585-c741efd227c1" alt="Logo Conecta Web Digital" class="h-40 w-auto absolute top-1/2 left-0 -translate-y-1/2">
                 </a>
                 
                 <!-- Menu Desktop -->
-                <!-- CORREÇÃO: Removido 'self-center' pois o alinhamento agora é controlado pelo container pai -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="#services" class="text-slate-300 hover:text-white transition-colors duration-300">Serviços</a>
                     <a href="#how-it-works" class="text-slate-300 hover:text-white transition-colors duration-300">Como Funciona</a>
