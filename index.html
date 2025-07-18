@@ -100,12 +100,15 @@
     <!-- --- CABEÇALHO DE NAVEGAÇÃO FIXO --- -->
     <nav id="sticky-nav" class="sticky-nav">
         <div class="max-w-6xl mx-auto px-4">
+            <!-- CORREÇÃO: Adicionado 'items-center' para alinhar todos os filhos (logo e menu) verticalmente -->
             <div class="flex justify-between items-center h-16">
-                <a href="#">
+                <!-- CORREÇÃO: Adicionado 'h-full flex items-center' ao link da logo para centralizar a imagem que transborda -->
+                <a href="#" class="h-full flex items-center">
                     <img src="https://firebasestorage.googleapis.com/v0/b/platamais.firebasestorage.app/o/projeto%20vm%2Flogo%20conecta.png?alt=media&token=320f1061-918f-4bda-8585-c741efd227c1" alt="Logo Conecta Web Digital" class="h-40 w-auto">
                 </a>
                 
                 <!-- Menu Desktop -->
+                <!-- CORREÇÃO: Removido 'self-center' pois o alinhamento agora é controlado pelo container pai -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="#services" class="text-slate-300 hover:text-white transition-colors duration-300">Serviços</a>
                     <a href="#how-it-works" class="text-slate-300 hover:text-white transition-colors duration-300">Como Funciona</a>
@@ -115,7 +118,7 @@
                 </div>
 
                 <!-- Botão do Menu Mobile (Hambúrguer) -->
-                <div class="md:hidden">
+                <div class="md:hidden flex items-center">
                     <button id="mobile-menu-button" class="text-white focus:outline-none">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
