@@ -6,7 +6,7 @@
     <title>Conecta Web Digital - Criação de Sites Personalizados</title>
     
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
 
     <!-- Google Fonts: Inter & Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,12 +34,6 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            transform: translateY(-100%);
-            transition: transform 0.4s ease-in-out, background-color 0.4s ease;
-        }
-
-        .sticky-nav.visible {
-            transform: translateY(0);
             background-color: rgba(2, 6, 23, 0.8); /* bg-slate-950 com transparência */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -96,8 +90,21 @@
     <!-- --- CABEÇALHO DE NAVEGAÇÃO FIXO --- -->
     <nav id="sticky-nav" class="sticky-nav">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <a href="#" class="text-xl font-bold text-white font-playfair">Conecta Web Digital</a>
+            <!-- 
+                A ALTURA DO CABEÇALHO É CONTROLADA AQUI PELA CLASSE 'h-16'.
+                Você pode mudar para h-12, h-14, etc., para deixá-lo mais fino ou mais grosso.
+                Esta altura NÃO será afetada pelo tamanho da logo.
+            -->
+            <div class="flex justify-between items-center h-16">
+                <a href="#">
+                    <!-- 
+                        O TAMANHO DA LOGO É CONTROLADO AQUI PELA CLASSE 'h-24'.
+                        Altere este valor para aumentar ou diminuir a logo (ex: h-20, h-32, h-40).
+                        Se a logo for maior que o cabeçalho (h-16), ela irá "vazar" para fora,
+                        mas a altura do cabeçalho continuará a mesma.
+                    -->
+                    <img src="https://firebasestorage.googleapis.com/v0/b/platamais.firebasestorage.app/o/projeto%20vm%2Flogo%20conecta.png?alt=media&token=320f1061-918f-4bda-8585-c741efd227c1" alt="Logo Conecta Web Digital" class="h-40 w-auto">
+                </a>
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="#services" class="text-slate-300 hover:text-white transition-colors duration-300">Serviços</a>
                     <a href="#how-it-works" class="text-slate-300 hover:text-white transition-colors duration-300">Como Funciona</a>
@@ -283,15 +290,14 @@
 
     <!-- --- SCRIPTS DE INTERATIVIDADE --- -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // --- Script para animar elementos ao rolar a página ---
+        function runApp() {
             const revealElements = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         setTimeout(() => {
                             entry.target.classList.add('visible');
-                        }, 150); // Atraso ligeiramente menor para uma resposta mais rápida
+                        }, 150);
                     }
                 });
             }, {
@@ -299,19 +305,11 @@
             });
             revealElements.forEach(elem => observer.observe(elem));
 
-            // --- Script para o cabeçalho fixo (sticky nav) ---
-            const stickyNav = document.getElementById('sticky-nav');
-            const heroSection = document.querySelector('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > heroSection.offsetHeight - 100) {
-                    stickyNav.classList.add('visible');
-                } else {
-                    stickyNav.classList.remove('visible');
-                }
-            });
-
-            // --- Script para o efeito de partículas ---
             const canvas = document.getElementById('particle-canvas');
+            if (!canvas) {
+                console.error("Particle canvas not found!");
+                return; 
+            }
             const ctx = canvas.getContext('2d');
             let particles = [];
 
@@ -319,17 +317,15 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
 
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
                     this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 1.5 + 0.5; // Tamanho das partículas
+                    this.size = Math.random() * 1.5 + 0.5;
                     this.speedX = Math.random() * 1 - 0.5;
                     this.speedY = Math.random() * 1 - 0.5;
-                    this.color = 'rgba(203, 213, 225, 0.5)'; // Cor (slate-300 com opacidade)
+                    this.color = 'rgba(203, 213, 225, 0.5)';
                 }
                 update() {
                     this.x += this.speedX;
@@ -348,7 +344,8 @@
             }
 
             function initParticles() {
-                const particleCount = Math.floor(canvas.width / 30); // Ajusta a quantidade de partículas com base na largura da tela
+                particles = [];
+                const particleCount = Math.floor(canvas.width / 30);
                 for (let i = 0; i < particleCount; i++) {
                     particles.push(new Particle());
                 }
@@ -362,10 +359,22 @@
                 }
                 requestAnimationFrame(animateParticles);
             }
+            
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initParticles();
+            });
 
+            resizeCanvas();
             initParticles();
             animateParticles();
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', runApp);
+        } else {
+            runApp();
+        }
     </script>
 </body>
 </html>
