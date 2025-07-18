@@ -21,6 +21,8 @@
             -moz-osx-font-smoothing: grayscale;
             background-color: #020617; /* bg-slate-950 */
             color: #d1d5db; /* text-slate-300 */
+            /* ADICIONADO: Espaçamento no topo para não sobrepor o cabeçalho fixo */
+            padding-top: 4rem; /* 64px, que é a altura do cabeçalho (h-16) */
         }
 
         .font-playfair {
@@ -92,14 +94,12 @@
         <div class="max-w-6xl mx-auto px-4">
             <!-- 
                 A ALTURA DO CABEÇALHO É CONTROLADA AQUI PELA CLASSE 'h-16'.
-                Você pode mudar para h-12, h-14, etc., para deixá-lo mais fino ou mais grosso.
                 Esta altura NÃO será afetada pelo tamanho da logo.
             -->
             <div class="flex justify-between items-center h-16">
                 <a href="#">
                     <!-- 
-                        O TAMANHO DA LOGO É CONTROLADO AQUI PELA CLASSE 'h-24'.
-                        Altere este valor para aumentar ou diminuir a logo (ex: h-20, h-32, h-40).
+                        O TAMANHO DA LOGO É CONTROLADO AQUI PELA CLASSE 'h-40'.
                         Se a logo for maior que o cabeçalho (h-16), ela irá "vazar" para fora,
                         mas a altura do cabeçalho continuará a mesma.
                     -->
