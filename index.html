@@ -23,6 +23,12 @@
             color: #d1d5db; /* text-slate-300 */
             /* ADICIONADO: Espaçamento no topo para não sobrepor o cabeçalho fixo */
             padding-top: 4rem; /* 64px, que é a altura do cabeçalho (h-16) */
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* CORREÇÃO FOUC: Esconde o body enquanto a página carrega */
+        .js-loading body {
+            opacity: 0;
         }
 
         .font-playfair {
@@ -86,25 +92,20 @@
             z-index: 5; /* Fica acima do vídeo mas abaixo do conteúdo */
         }
     </style>
+    <!-- Script para prevenir o "flash" de conteúdo sem estilo (FOUC) -->
+    <script>document.documentElement.classList.add('js-loading');</script>
 </head>
 <body>
 
     <!-- --- CABEÇALHO DE NAVEGAÇÃO FIXO --- -->
     <nav id="sticky-nav" class="sticky-nav">
         <div class="max-w-6xl mx-auto px-4">
-            <!-- 
-                A ALTURA DO CABEÇALHO É CONTROLADA AQUI PELA CLASSE 'h-16'.
-                Esta altura NÃO será afetada pelo tamanho da logo.
-            -->
             <div class="flex justify-between items-center h-16">
                 <a href="#">
-                    <!-- 
-                        O TAMANHO DA LOGO É CONTROLADO AQUI PELA CLASSE 'h-40'.
-                        Se a logo for maior que o cabeçalho (h-16), ela irá "vazar" para fora,
-                        mas a altura do cabeçalho continuará a mesma.
-                    -->
                     <img src="https://firebasestorage.googleapis.com/v0/b/platamais.firebasestorage.app/o/projeto%20vm%2Flogo%20conecta.png?alt=media&token=320f1061-918f-4bda-8585-c741efd227c1" alt="Logo Conecta Web Digital" class="h-40 w-auto">
                 </a>
+                
+                <!-- Menu Desktop -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="#services" class="text-slate-300 hover:text-white transition-colors duration-300">Serviços</a>
                     <a href="#how-it-works" class="text-slate-300 hover:text-white transition-colors duration-300">Como Funciona</a>
@@ -112,6 +113,26 @@
                         Contato
                     </a>
                 </div>
+
+                <!-- Botão do Menu Mobile (Hambúrguer) -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Painel do Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#services" class="block text-slate-300 hover:text-white px-3 py-2 rounded-md text-base font-medium">Serviços</a>
+                <a href="#how-it-works" class="block text-slate-300 hover:text-white px-3 py-2 rounded-md text-base font-medium">Como Funciona</a>
+                <a href="https://wa.me/5567999093031?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20criação%20de%20sites." target="_blank" class="block bg-slate-100 text-slate-900 font-bold px-3 py-2 rounded-lg hover:bg-white text-center">
+                    Contato
+                </a>
             </div>
         </div>
     </nav>
@@ -120,7 +141,7 @@
     <div class="w-full">
 
         <!-- Seção Hero com Vídeo e Partículas -->
-        <header class="relative flex items-center justify-center min-h-screen p-4 overflow-hidden">
+        <header class="relative flex items-center justify-center min-h-screen p-4 overflow-hidden -mt-16"> <!-- Ajuste de margem negativa -->
             <!-- CANVAS PARA PARTÍCULAS -->
             <canvas id="particle-canvas"></canvas>
             
@@ -290,7 +311,27 @@
 
     <!-- --- SCRIPTS DE INTERATIVIDADE --- -->
     <script>
+        // Função principal que inicializa todos os scripts da página
         function runApp() {
+            // Lógica do menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Fecha o menu ao clicar em um link
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+
+            // Animação de revelação dos elementos
             const revealElements = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -305,6 +346,7 @@
             });
             revealElements.forEach(elem => observer.observe(elem));
 
+            // Efeito de partículas
             const canvas = document.getElementById('particle-canvas');
             if (!canvas) {
                 console.error("Particle canvas not found!");
@@ -370,11 +412,12 @@
             animateParticles();
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', runApp);
-        } else {
-            runApp();
-        }
+        // Espera a página inteira carregar (incluindo estilos e imagens)
+        // para então remover a classe de carregamento e rodar os scripts.
+        window.addEventListener('load', () => {
+          document.documentElement.classList.remove('js-loading');
+          runApp();
+        });
     </script>
 </body>
 </html>
